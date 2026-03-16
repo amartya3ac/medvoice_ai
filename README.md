@@ -1,218 +1,578 @@
-# MedVoice AI - Advanced AI Medical Diagnostic System
+# 🩺 MedVoice AI — Advanced AI Medical Diagnostic System
+
+<p align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi)
+![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38B2AC?logo=tailwindcss)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
+![Gemini](https://img.shields.io/badge/Google-Gemini-AI?logo=google)
+![Groq](https://img.shields.io/badge/Groq-LLaMA%203-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+</p>
+
+> **AI-powered medical diagnostic assistant combining voice interaction, prescription analysis, and intelligent healthcare recommendations.**
 
 **Version:** 1.0.0  
-**Copyright © 2026 Amartya Chakraborty. All rights reserved.**
-
-## Overview
-
-MedVoice AI is a cutting-edge medical diagnostic platform powered by artificial intelligence. It provides intelligent analysis of medical symptoms, prescription scanning, and personalized treatment recommendations. The system integrates advanced LLM capabilities with secure cloud infrastructure for HIPAA-compliant healthcare solutions.
-
-## ✨ Key Features
-
-- 🤖 **AI-Powered Diagnosis** - Advanced symptom analysis using Google Gemini and Groq LLaMA models
-- 📸 **Prescription Scanning** - OCR-based medication extraction from prescription images
-- 💬 **Intelligent Chatbot** - Multi-turn conversational medical analysis
-- 👨‍⚕️ **Doctor Matching** - Smart specialist recommendation based on location and expertise
-- 📅 **Appointment Booking** - Integrated booking system for doctor consultations
-- 🎤 **Voice Control** - Speech-to-text and text-to-speech capabilities
-- 📊 **Medical Reports** - Export diagnostic reports as PDF
-- � **User Profile Dashboard** - View/edit profile, chat history, and favorite sessions
-- 💾 **Save as Favorites** - Bookmark important consultations for quick revisit
-- �🔐 **Secure Authentication** - Supabase auth with encrypted data storage
-- 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
+**Author:** Amartya Chakraborty  
+**Copyright:** © 2026
 
 ---
 
-## 🛠️ Tech Stack
+# 🚀 Overview
 
-### Frontend
+**MedVoice AI** is an advanced AI healthcare assistant designed to help users analyze symptoms, understand prescriptions, and receive intelligent medical guidance.
 
-- **Framework:** Next.js 16.1.6 (React 19.2.3)
-- **Styling:** Tailwind CSS 4
-- **UI Components:** Lucide React Icons (100+ medical icons)
-- **Animations:** GSAP 3.14.2 (GPU-accelerated)
-- **Fonts:** Fontsource Inter & Outfit
-- **Type Safety:** TypeScript 5
-- **State Management:** React Hooks + useChat API
+The platform integrates **large language models, OCR-based prescription scanning, and conversational AI** into a unified diagnostic system.
 
-### Backend
-
-- **Framework:** FastAPI + Uvicorn
-- **AI Orchestration:** LangGraph
-- **LLM Providers:**
-  - Google Generative AI (Gemini 1.5 Flash)
-  - Groq API (Llama 3.3 70B)
-- **OCR Engine:** Google Vision API via Gemini
-- **Task Queue:** Native async/await
-
-### Database & Storage
-
-- **Database:** Supabase PostgreSQL
-- **Auth:** Supabase Auth with JWT
-- **ORM:** Supabase JS & Python clients
-- **RLS:** Row-level security on all tables
-- **Tables:** Users, Appointments, Messages, Conversations
-
-### API & Integration
-
-- **AI SDK:** Vercel AI SDK (@ai-sdk/google, @ai-sdk/react)
-- **HTTP:** Supabase client with WebSocket support
-- **CORS:** FastAPI CORS Middleware
-
-### DevOps & Tools
-
-- **Build:** Next.js with SWC compiler
-- **Linting:** ESLint 9
-- **Package Manager:** npm
-- **Process Manager:** Concurrently (dev parallel execution)
+It uses **secure cloud infrastructure with Supabase and AI orchestration pipelines** to deliver scalable medical analysis.
 
 ---
 
-## 📁 Project Structure
+# ✨ Key Features
 
-```
-MedVoiceAi-master/
-├── src/
-│   ├── app/
-│   │   ├── api/                    # API routes
-│   │   │   ├── analyze-prescription/route.ts
-│   │   │   ├── chat/route.ts
-│   │   │   ├── book/route.ts
-│   │   │   └── health/route.ts
-│   │   ├── login/                  # Auth pages
-│   │   │   ├── page.tsx
-│   │   │   └── actions.ts
-│   │   ├── chatbot/                # Main application
-│   │   │   ├── page.tsx
-│   │   │   ├── ChatbotUI.tsx
-│   │   │   └── doctorsData.ts
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/                 # Reusable components
-│   │   ├── chatbot/
-│   │   │   ├── ChatbotUI.tsx
-│   │   │   ├── BookingModal.tsx
-│   │   │   └── Sidebar.tsx
-│   │   └── layout/
-│   │       └── Navbar.tsx
-│   ├── lib/
-│   │   └── utils.ts
-│   ├── middleware.ts
-│   └── utils/
-│       └── supabase/
-├── backend/
-│   ├── main.py
-│   ├── orchestrator.py
-│   ├── supabase_client.py
-│   ├── requirements.txt
-│   └── database/
-│       └── migrations.sql
-├── public/
+### 🤖 AI Diagnosis Engine
+- Symptom analysis using **Google Gemini** and **Groq LLaMA**
+- Intelligent disease probability estimation
+- Conversational reasoning for medical queries
+
+### 📸 Prescription Scanner
+- Upload prescription images
+- AI extracts medicines and instructions
+- Automatic medication explanation
+
+### 💬 AI Chatbot
+- Multi-turn medical conversations
+- Context-aware responses
+- Personalized health insights
+
+### 👨‍⚕️ Doctor Recommendation
+- Smart specialist matching
+- Based on symptoms and location
+- Quick access to relevant doctors
+
+### 📅 Appointment Booking
+- Integrated consultation booking
+- Secure appointment management
+- Patient-doctor interaction system
+
+### 🎤 Voice Interaction
+- Speech-to-text medical queries
+- Text-to-speech responses
+- Hands-free medical assistant
+
+### 📊 Medical Reports
+- Export diagnostic reports as **PDF**
+- Shareable health summaries
+
+### 🔐 Secure Authentication
+- Supabase Auth with JWT
+- Encrypted database storage
+- HIPAA-ready architecture
+
+### 📱 Responsive Design
+- Works across **desktop, tablet, and mobile**
+
+---
+
+# 🧠 AI Architecture
+
+MedVoice AI uses a **hybrid multi-model AI pipeline**.
+
+| AI Component | Purpose |
+|---|---|
+| **Google Gemini 1.5 Flash** | Medical reasoning and NLP |
+| **Groq LLaMA 3.3 70B** | Ultra-fast conversational responses |
+| **LangGraph** | AI workflow orchestration |
+| **Google Vision OCR** | Prescription image analysis |
+
+Benefits:
+
+- ⚡ Fast responses  
+- 🧠 Accurate reasoning  
+- 🔄 Context-aware conversations  
+
+---
+
+# 🛠 Tech Stack
+
+## 🖥 Frontend
+
+| Technology | Purpose |
+|---|---|
+| ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js) | React framework |
+| ![React](https://img.shields.io/badge/React-blue?logo=react) | UI library |
+| ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript) | Type safety |
+| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss) | Styling |
+| ![GSAP](https://img.shields.io/badge/GSAP-Animations-88CE02) | Animations |
+| ![Lucide](https://img.shields.io/badge/Lucide-Icons-black) | Icon library |
+
+---
+
+## ⚙ Backend
+
+| Technology | Purpose |
+|---|---|
+| ![FastAPI](https://img.shields.io/badge/FastAPI-green?logo=fastapi) | Backend API |
+| ![Python](https://img.shields.io/badge/Python-3776AB?logo=python) | Runtime |
+| ![LangGraph](https://img.shields.io/badge/LangGraph-AI%20Workflow-purple) | AI orchestration |
+| ![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-blue) | ASGI server |
+
+---
+
+## 🗄 Database & Authentication
+
+| Technology | Purpose |
+|---|---|
+| ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase) | Database |
+| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql) | Data storage |
+| ![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens) | Authentication |
+| ![RLS](https://img.shields.io/badge/RLS-Security-red) | Row-level security |
+
+Tables:
+
+- Users  
+- Conversations  
+- Messages  
+- Appointments  
+
+---
+
+# 📁 Project Structure
+
+
+# 🩺 MedVoice AI — Advanced AI Medical Diagnostic System
+
+<p align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi)
+![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38B2AC?logo=tailwindcss)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
+![Gemini](https://img.shields.io/badge/Google-Gemini-AI?logo=google)
+![Groq](https://img.shields.io/badge/Groq-LLaMA%203-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+</p>
+
+> **AI-powered medical diagnostic assistant combining voice interaction, prescription analysis, and intelligent healthcare recommendations.**
+
+**Version:** 1.0.0  
+**Author:** Amartya Chakraborty  
+**Copyright:** © 2026
+
+---
+
+# 🚀 Overview
+
+**MedVoice AI** is an advanced AI healthcare assistant designed to help users analyze symptoms, understand prescriptions, and receive intelligent medical guidance.
+
+The platform integrates **large language models, OCR-based prescription scanning, and conversational AI** into a unified diagnostic system.
+
+It uses **secure cloud infrastructure with Supabase and AI orchestration pipelines** to deliver scalable medical analysis.
+
+---
+
+# ✨ Key Features
+
+### 🤖 AI Diagnosis Engine
+- Symptom analysis using **Google Gemini** and **Groq LLaMA**
+- Intelligent disease probability estimation
+- Conversational reasoning for medical queries
+
+### 📸 Prescription Scanner
+- Upload prescription images
+- AI extracts medicines and instructions
+- Automatic medication explanation
+
+### 💬 AI Chatbot
+- Multi-turn medical conversations
+- Context-aware responses
+- Personalized health insights
+
+### 👨‍⚕️ Doctor Recommendation
+- Smart specialist matching
+- Based on symptoms and location
+- Quick access to relevant doctors
+
+### 📅 Appointment Booking
+- Integrated consultation booking
+- Secure appointment management
+- Patient-doctor interaction system
+
+### 🎤 Voice Interaction
+- Speech-to-text medical queries
+- Text-to-speech responses
+- Hands-free medical assistant
+
+### 📊 Medical Reports
+- Export diagnostic reports as **PDF**
+- Shareable health summaries
+
+### 🔐 Secure Authentication
+- Supabase Auth with JWT
+- Encrypted database storage
+- HIPAA-ready architecture
+
+### 📱 Responsive Design
+- Works across **desktop, tablet, and mobile**
+
+---
+
+# 🧠 AI Architecture
+
+MedVoice AI uses a **hybrid multi-model AI pipeline**.
+
+| AI Component | Purpose |
+|---|---|
+| **Google Gemini 1.5 Flash** | Medical reasoning and NLP |
+| **Groq LLaMA 3.3 70B** | Ultra-fast conversational responses |
+| **LangGraph** | AI workflow orchestration |
+| **Google Vision OCR** | Prescription image analysis |
+
+Benefits:
+
+- ⚡ Fast responses  
+- 🧠 Accurate reasoning  
+- 🔄 Context-aware conversations  
+
+---
+
+# 🛠 Tech Stack
+
+## 🖥 Frontend
+
+| Technology | Purpose |
+|---|---|
+| ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js) | React framework |
+| ![React](https://img.shields.io/badge/React-blue?logo=react) | UI library |
+| ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript) | Type safety |
+| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss) | Styling |
+| ![GSAP](https://img.shields.io/badge/GSAP-Animations-88CE02) | Animations |
+| ![Lucide](https://img.shields.io/badge/Lucide-Icons-black) | Icon library |
+
+---
+
+## ⚙ Backend
+
+| Technology | Purpose |
+|---|---|
+| ![FastAPI](https://img.shields.io/badge/FastAPI-green?logo=fastapi) | Backend API |
+| ![Python](https://img.shields.io/badge/Python-3776AB?logo=python) | Runtime |
+| ![LangGraph](https://img.shields.io/badge/LangGraph-AI%20Workflow-purple) | AI orchestration |
+| ![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-blue) | ASGI server |
+
+---
+
+## 🗄 Database & Authentication
+
+| Technology | Purpose |
+|---|---|
+| ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase) | Database |
+| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql) | Data storage |
+| ![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens) | Authentication |
+| ![RLS](https://img.shields.io/badge/RLS-Security-red) | Row-level security |
+
+Tables:
+
+- Users  
+- Conversations  
+- Messages  
+- Appointments  
+
+---
+
+# 📁 Project Structure
+
+
+MedVoiceAi/
+│
+├── src
+│ ├── app
+│ │ ├── api
+│ │ │ ├── analyze-prescription
+│ │ │ ├── chat
+│ │ │ ├── book
+│ │ │ └── health
+│ │ │
+│ │ ├── login
+│ │ ├── chatbot
+│ │ ├── globals.css
+│ │ ├── layout.tsx
+│ │ └── page.tsx
+│
+├── components
+│ ├── chatbot
+│ │ ├── ChatbotUI.tsx
+│ │ ├── BookingModal.tsx
+│ │ └── Sidebar.tsx
+│ │
+│ └── layout
+│ └── Navbar.tsx
+│
+├── backend
+│ ├── main.py
+│ ├── orchestrator.py
+│ ├── supabase_client.py
+│ └── database
+│ └── migrations.sql
+│
+├── public
 ├── package.json
 └── README.md
-```
+
 
 ---
 
-## 🚀 Installation & Setup
+# ⚡ Installation & Setup
 
-### Prerequisites
+## Prerequisites
 
-- Node.js 18+
-- Python 3.9+
+- Node.js **18+**
+- Python **3.9+**
 - Supabase account
-- API Keys: GEMINI_API_KEY, GROQ_API_KEY
+- API Keys
 
-### Quick Start
+
+GEMINI_API_KEY
+GROQ_API_KEY
+
+
+---
+
+## Quick Start
+
+### Clone Repository
 
 ```bash
-# Clone
 git clone https://github.com/amartya3ac/medvoice_ai.git
 cd medvoice_ai
-
-# Install dependencies
+Install Frontend
 npm install
-cd backend && pip install -r requirements.txt && cd ..
+Install Backend
+cd backend
+pip install -r requirements.txt
+cd ..
+Setup Environment Variables
 
-# Setup .env.local
-# Copy your Supabase URL, keys, and API keys
+Create .env.local
 
-# Run
+SUPABASE_URL=
+SUPABASE_KEY=
+GEMINI_API_KEY=
+GROQ_API_KEY=
+Run Development Server
 npm run dev
-```
+Local URLs
 
-Frontend: http://localhost:3000  
-Backend: http://localhost:8000
+Frontend
+
+http://localhost:3000
+
+Backend
+
+http://localhost:8000
+📦 Production Dependencies
+Package	Version
+next	16.1.6
+react	19.2.3
+react-dom	19.2.3
+tailwindcss	4
+gsap	3.14.2
+lucide-react	0.577.0
+ai	6.0.116
+@ai-sdk/google	3.0.43
+@ai-sdk/react	3.0.118
+@supabase/supabase-js	2.99.0
+@supabase/ssr	0.9.0
+@fontsource/inter	5.2.8
+@fontsource/outfit	5.2.8
+🔐 Security
+
+JWT Authentication
+
+Row Level Security (RLS)
+
+Secure Supabase storage
+
+HTTPS encryption
+
+Environment variable protection
+
+No exposed API keys
+
+Designed with HIPAA-ready architecture.
+
+👨‍💻 Developer
+
+Amartya Chakraborty
+
+📧 Email
+amartyahub03@gmail.com
+
+💼 LinkedIn
+https://www.linkedin.com/in/amartya-chakraborty-056262234/
+
+🐙 GitHub
+https://github.com/amartya3ac
+
+📦 Repository
+https://github.com/amartya3ac/medvoice_ai
+
+📜 License
+
+MIT License © 2026
+Amartya Chakraborty
+
+📚 Resources
+
+Next.js
+https://nextjs.org/docs
+
+Supabase
+https://supabase.com/docs
+
+FastAPI
+https://fastapi.tiangolo.com/
+
+Google AI Studio
+https://makersuite.google.com/
+
+TailwindCSS
+https://tailwindcss.com/
+
+❤️ Final Note
+
+MedVoice AI bridges artificial intelligence and healthcare, enabling faster diagnostics and smarter consultations.
+
+Where AI meets medical expertise.
 
 ---
 
-## 📦 Dependencies (Optimized & Cleaned)
+# ⚡ Installation & Setup
 
-### Removed Unused Packages ✂️
+## Prerequisites
 
-- ❌ `html2pdf.js` (650KB) - Replaced with native browser print dialog
-- ❌ `@ai-sdk/openai` - Not used (using Google & Groq only)
-- ❌ `@types/html2pdf.js` - Type definitions for removed package
+- Node.js **18+**
+- Python **3.9+**
+- Supabase account
+- API Keys
 
-### Production Dependencies (Used Only)
 
-| Package               | Version | Purpose         |
-| --------------------- | ------- | --------------- |
-| next                  | 16.1.6  | React framework |
-| react                 | 19.2.3  | UI library      |
-| react-dom             | 19.2.3  | DOM rendering   |
-| tailwindcss           | 4       | CSS framework   |
-| gsap                  | 3.14.2  | Animations      |
-| lucide-react          | 0.577.0 | Icons           |
-| ai                    | 6.0.116 | AI SDK core     |
-| @ai-sdk/google        | 3.0.43  | Google AI       |
-| @ai-sdk/react         | 3.0.118 | React AI hooks  |
-| @supabase/supabase-js | 2.99.0  | Database client |
-| @supabase/ssr         | 0.9.0   | SSR support     |
-| @fontsource/inter     | 5.2.8   | Font            |
-| @fontsource/outfit    | 5.2.8   | Font            |
+GEMINI_API_KEY
+GROQ_API_KEY
+
 
 ---
 
-## 🔐 Security
+## Quick Start
 
-✅ JWT authentication  
-✅ Row-level security (RLS)  
-✅ HTTPS/TLS encryption  
-✅ Environment variable isolation  
-✅ No exposed API keys  
-✅ HIPAA-compliant architecture
+### Clone Repository
 
----
+```bash
+git clone https://github.com/amartya3ac/medvoice_ai.git
+cd medvoice_ai
+Install Frontend
+npm install
+Install Backend
+cd backend
+pip install -r requirements.txt
+cd ..
+Setup Environment Variables
 
-## 👨‍💻 Developer Contact
+Create .env.local
 
-**Amartya Chakraborty**
+SUPABASE_URL=
+SUPABASE_KEY=
+GEMINI_API_KEY=
+GROQ_API_KEY=
+Run Development Server
+npm run dev
+Local URLs
 
-📧 Email: [amartyahub03@gmail.com](mailto:amartyahub03@gmail.com)  
-💼 LinkedIn: [Amartya Chakraborty](https://www.linkedin.com/in/amartya-chakraborty-056262234/)  
-🐙 GitHub: [@amartya3ac](https://github.com/amartya3ac)  
-📦 Repository: [medvoice_ai](https://github.com/amartya3ac/medvoice_ai)
+Frontend
 
----
+http://localhost:3000
 
-## 📜 License
+Backend
 
-MIT License © 2026 Amartya Chakraborty
+http://localhost:8000
+📦 Production Dependencies
+Package	Version
+next	16.1.6
+react	19.2.3
+react-dom	19.2.3
+tailwindcss	4
+gsap	3.14.2
+lucide-react	0.577.0
+ai	6.0.116
+@ai-sdk/google	3.0.43
+@ai-sdk/react	3.0.118
+@supabase/supabase-js	2.99.0
+@supabase/ssr	0.9.0
+@fontsource/inter	5.2.8
+@fontsource/outfit	5.2.8
+🔐 Security
 
----
+JWT Authentication
 
-## 📚 Resources
+Row Level Security (RLS)
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Supabase Docs](https://supabase.com/docs)
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [Google AI Studio](https://makersuite.google.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
+Secure Supabase storage
 
----
+HTTPS encryption
 
-**Built with ❤️ for healthcare innovation**
+Environment variable protection
 
-_MedVoice AI - Where AI meets Medical Expertise_
+No exposed API keys
+
+Designed with HIPAA-ready architecture.
+
+👨‍💻 Developer
+
+Amartya Chakraborty
+
+📧 Email
+amartyahub03@gmail.com
+
+💼 LinkedIn
+https://www.linkedin.com/in/amartya-chakraborty-056262234/
+
+🐙 GitHub
+https://github.com/amartya3ac
+
+📦 Repository
+https://github.com/amartya3ac/medvoice_ai
+
+📜 License
+
+MIT License © 2026
+Amartya Chakraborty
+
+📚 Resources
+
+Next.js
+https://nextjs.org/docs
+
+Supabase
+https://supabase.com/docs
+
+FastAPI
+https://fastapi.tiangolo.com/
+
+Google AI Studio
+https://makersuite.google.com/
+
+TailwindCSS
+https://tailwindcss.com/
+
+❤️ Final Note
+
+MedVoice AI bridges artificial intelligence and healthcare, enabling faster diagnostics and smarter consultations.
+
+Where AI meets medical expertise.

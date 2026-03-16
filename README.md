@@ -16,7 +16,9 @@ MedVoice AI is a cutting-edge medical diagnostic platform powered by artificial 
 - 📅 **Appointment Booking** - Integrated booking system for doctor consultations
 - 🎤 **Voice Control** - Speech-to-text and text-to-speech capabilities
 - 📊 **Medical Reports** - Export diagnostic reports as PDF
-- 🔐 **Secure Authentication** - Supabase auth with encrypted data storage
+- � **User Profile Dashboard** - View/edit profile, chat history, and favorite sessions
+- 💾 **Save as Favorites** - Bookmark important consultations for quick revisit
+- �🔐 **Secure Authentication** - Supabase auth with encrypted data storage
 - 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
 
 ---

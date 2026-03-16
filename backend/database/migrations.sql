@@ -10,6 +10,10 @@ CREATE TABLE IF NOT EXISTS users (
     full_name TEXT,
     phone_number TEXT,
     date_of_birth DATE,
+    profile_photo TEXT,
+    address TEXT,
+    city TEXT,
+    country TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     last_login TIMESTAMP WITH TIME ZONE
@@ -45,11 +49,21 @@ CREATE TABLE IF NOT EXISTS conversations (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Create favorite_sessions table for bookmarked chats
+CREATE TABLE IF NOT EXISTS favorite_sessions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE,
+    is_favorite BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Enable Row Level Security
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE favorite_sessions ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS Policies: Users can only access their own data
 CREATE POLICY "Users can access their own profile" ON users
@@ -75,3 +89,15 @@ CREATE POLICY "Users can access their own conversations" ON conversations
 
 CREATE POLICY "Users can create their own conversations" ON conversations
     FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can access their own favorite sessions" ON favorite_sessions
+    FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can create their own favorite sessions" ON favorite_sessions
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own favorite sessions" ON favorite_sessions
+    FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete their own favorite sessions" ON favorite_sessions
+    FOR DELETE USING (auth.uid() = user_id);

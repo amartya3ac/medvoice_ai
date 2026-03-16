@@ -6,11 +6,13 @@ import { usePathname } from 'next/navigation';
 import { Activity, Menu, X, User as UserIcon, Loader2, ChevronRight } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { logout } from '@/app/login/actions';
+import ProfileDashboard from '@/components/chatbot/ProfileDashboard';
 
 export default function Navbar() {
     const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [profileOpen, setProfileOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const supabase = createClient();
@@ -93,7 +95,10 @@ export default function Navbar() {
                             {!loading && (
                                 <>
                                     {user ? (
-                                        <div className="hidden md:flex items-center gap-4 group">
+                                        <button
+                                            onClick={() => setProfileOpen(true)}
+                                            className="hidden md:flex items-center gap-4 group hover:opacity-80 transition-opacity"
+                                        >
                                             <div className="flex flex-col items-end">
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 leading-none mb-0.5">Patient</span>
                                                 <span className="text-xs font-bold text-slate-300 truncate max-w-[120px]">{user.email?.split('@')[0]}</span>
@@ -101,7 +106,7 @@ export default function Navbar() {
                                             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center border border-white/10 group-hover:border-blue-500/50 transition-all duration-300 shadow-lg cursor-pointer">
                                                 <UserIcon className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
                                             </div>
-                                        </div>
+                                        </button>
                                     ) : (
                                         <Link href="/login" className="hidden md:inline-block text-sm font-bold text-slate-400 hover:text-white transition-colors px-2">
                                             Login
@@ -159,6 +164,13 @@ export default function Navbar() {
                     </div>
                 </div>
             )}
+
+            {/* Profile Dashboard Modal */}
+            <ProfileDashboard
+                isOpen={profileOpen}
+                onClose={() => setProfileOpen(false)}
+                user={user}
+            />
         </>
     );
 }

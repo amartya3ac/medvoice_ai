@@ -471,6 +471,8 @@ export default function ChatbotUI({
   const [treatmentTab, setTreatmentTab] = useState<"home" | "medical">("home");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isSavingFavorite, setIsSavingFavorite] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const uiContainerRef = useRef<HTMLDivElement>(null);
@@ -944,6 +946,48 @@ export default function ChatbotUI({
       alert(
         "Failed to open print dialog. Please try using Ctrl+P to print the page instead.",
       );
+    }
+  };
+
+  const toggleFavoriteSession = async () => {
+    if (!selectedConversationId || !user) {
+      alert("Please start a consultation first");
+      return;
+    }
+
+    try {
+      setIsSavingFavorite(true);
+
+      if (isFavorite) {
+        // Remove from favorites
+        const { error } = await supabase
+          .from("favorite_sessions")
+          .delete()
+          .eq("conversation_id", selectedConversationId)
+          .eq("user_id", user.id);
+
+        if (!error) {
+          setIsFavorite(false);
+        }
+      } else {
+        // Add to favorites
+        const { error } = await supabase
+          .from("favorite_sessions")
+          .insert({
+            user_id: user.id,
+            conversation_id: selectedConversationId,
+            is_favorite: true,
+          });
+
+        if (!error) {
+          setIsFavorite(true);
+        }
+      }
+    } catch (err) {
+      console.error("Error toggling favorite:", err);
+      alert("Failed to save favorite session");
+    } finally {
+      setIsSavingFavorite(false);
     }
   };
 
@@ -1652,13 +1696,34 @@ export default function ChatbotUI({
               </div>
             )}
 
-            {/* PDF Export Button (UI Only) */}
+            {/* PDF Export & Favorite Buttons */}
             {hasAnalysis && (
-              <div className="flex justify-end pt-4 no-print">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4 no-print">
+                <button
+                  onClick={toggleFavoriteSession}
+                  disabled={isSavingFavorite}
+                  className="flex-1 py-4 rounded-2xl bg-gradient-to-r from-red-600/50 to-red-700/50 border border-red-500/30 hover:border-red-400/50 hover:shadow-lg hover:shadow-red-500/20 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl active:scale-95"
+                >
+                  {isSavingFavorite ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Heart
+                        className={`w-5 h-5 ${
+                          isFavorite ? "fill-current" : ""
+                        }`}
+                      />
+                      {isFavorite ? "Saved to Favorites" : "Save as Favorite"}
+                    </>
+                  )}
+                </button>
                 <button
                   onClick={exportToPDF}
                   disabled={isExporting}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 border border-blue-500/30 hover:border-blue-400/50 hover:shadow-lg hover:shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl active:scale-95"
+                  className="flex-1 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 border border-blue-500/30 hover:border-blue-400/50 hover:shadow-lg hover:shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl active:scale-95"
                 >
                   {isExporting ? (
                     <>

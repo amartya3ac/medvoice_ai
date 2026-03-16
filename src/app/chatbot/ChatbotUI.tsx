@@ -966,9 +966,15 @@ export default function ChatbotUI({
           .eq("conversation_id", selectedConversationId)
           .eq("user_id", user.id);
 
-        if (!error) {
-          setIsFavorite(false);
+        if (error) {
+          console.error("Error removing favorite:", error);
+          alert(`Failed to remove favorite: ${error.message}`);
+          setIsSavingFavorite(false);
+          return;
         }
+
+        setIsFavorite(false);
+        alert("Removed from favorites");
       } else {
         // Add to favorites
         const { error } = await supabase.from("favorite_sessions").insert({
@@ -977,13 +983,22 @@ export default function ChatbotUI({
           is_favorite: true,
         });
 
-        if (!error) {
-          setIsFavorite(true);
+        if (error) {
+          console.error("Error adding favorite:", error);
+          alert(`Failed to save favorite: ${error.message}`);
+          setIsSavingFavorite(false);
+          return;
         }
+
+        setIsFavorite(true);
+        alert("Added to favorites! You can view it in your profile dashboard");
       }
     } catch (err) {
       console.error("Error toggling favorite:", err);
-      alert("Failed to save favorite session");
+      alert(
+        "Failed to save favorite session: " +
+          (err instanceof Error ? err.message : "Unknown error"),
+      );
     } finally {
       setIsSavingFavorite(false);
     }

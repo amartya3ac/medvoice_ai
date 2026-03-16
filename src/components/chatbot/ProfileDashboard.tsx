@@ -144,16 +144,29 @@ export default function ProfileDashboard({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      alert("Please select a valid image file (JPG, PNG, etc.)");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size must be less than 5MB");
+      return;
+    }
+
     setUploading(true);
     try {
-      // Create a unique file name
-      const fileName = `${user.id}-${Date.now()}-${file.name}`;
-      const filePath = `profile_photos/${fileName}`;
+      // Create a simpler file name without folder structure
+      const timestamp = Date.now();
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${user.id}-${timestamp}.${fileExt}`;
 
-      // Upload the file
-      const { data, error: uploadError } = await supabase.storage
+      // Upload directly to the bucket root
+      const { error: uploadError } = await supabase.storage
         .from("profile_photos")
-        .upload(filePath, file, { upsert: true });
+        .upload(fileName, file, { upsert: true });
 
       if (uploadError) {
         console.error("Upload error:", uploadError);
@@ -162,16 +175,10 @@ export default function ProfileDashboard({
         return;
       }
 
-      if (!data) {
-        alert("Upload failed: No data returned");
-        setUploading(false);
-        return;
-      }
-
       // Get the public URL
       const { data: urlData } = supabase.storage
         .from("profile_photos")
-        .getPublicUrl(filePath);
+        .getPublicUrl(fileName);
 
       const publicUrl = urlData?.publicUrl;
 
@@ -183,11 +190,14 @@ export default function ProfileDashboard({
 
       setPhotoUrl(publicUrl);
       setFormData({ ...formData, profile_photo: publicUrl });
-      alert("Photo uploaded successfully! Click Save Changes to save it to your profile.");
+      alert(
+        "Photo uploaded successfully! Click Save Changes to save it to your profile.",
+      );
     } catch (err) {
       console.error("Error uploading photo:", err);
       alert(
-        "Failed to upload photo: " + (err instanceof Error ? err.message : "Unknown error"),
+        "Failed to upload photo: " +
+          (err instanceof Error ? err.message : "Unknown error"),
       );
     } finally {
       setUploading(false);
@@ -252,7 +262,8 @@ export default function ProfileDashboard({
     } catch (err) {
       console.error("Error saving profile:", err);
       alert(
-        "Failed to save profile: " + (err instanceof Error ? err.message : "Unknown error"),
+        "Failed to save profile: " +
+          (err instanceof Error ? err.message : "Unknown error"),
       );
     }
   };

@@ -31,6 +31,20 @@ The platform integrates **large language models, OCR-based prescription scanning
 It uses **secure cloud infrastructure with Supabase and AI orchestration pipelines** to deliver scalable medical analysis.
 
 ---
+# 🌐 Live Application
+
+<p align="center">
+
+[![Visit MedVoice AI](https://img.shields.io/badge/🚀%20Visit%20MedVoice%20AI-Live%20Application-blue?style=for-the-badge)](https://medvoice-ai-eight.vercel.app/)
+
+</p>
+
+🔗 **Live Demo:**  
+https://medvoice-ai-eight.vercel.app/
+
+You can directly try the AI medical assistant online without installing anything.
+
+---
 
 # ✨ Key Features
 

@@ -971,13 +971,11 @@ export default function ChatbotUI({
         }
       } else {
         // Add to favorites
-        const { error } = await supabase
-          .from("favorite_sessions")
-          .insert({
-            user_id: user.id,
-            conversation_id: selectedConversationId,
-            is_favorite: true,
-          });
+        const { error } = await supabase.from("favorite_sessions").insert({
+          user_id: user.id,
+          conversation_id: selectedConversationId,
+          is_favorite: true,
+        });
 
         if (!error) {
           setIsFavorite(true);

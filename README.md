@@ -35,45 +35,54 @@ It uses **secure cloud infrastructure with Supabase and AI orchestration pipelin
 # ✨ Key Features
 
 ### 🤖 AI Diagnosis Engine
+
 - Symptom analysis using **Google Gemini** and **Groq LLaMA**
 - Intelligent disease probability estimation
 - Conversational reasoning for medical queries
 
 ### 📸 Prescription Scanner
+
 - Upload prescription images
 - AI extracts medicines and instructions
 - Automatic medication explanation
 
 ### 💬 AI Chatbot
+
 - Multi-turn medical conversations
 - Context-aware responses
 - Personalized health insights
 
 ### 👨‍⚕️ Doctor Recommendation
+
 - Smart specialist matching
 - Based on symptoms and location
 - Quick access to relevant doctors
 
 ### 📅 Appointment Booking
+
 - Integrated consultation booking
 - Secure appointment management
 - Patient-doctor interaction system
 
 ### 🎤 Voice Interaction
+
 - Speech-to-text medical queries
 - Text-to-speech responses
 - Hands-free medical assistant
 
 ### 📊 Medical Reports
+
 - Export diagnostic reports as **PDF**
 - Shareable health summaries
 
 ### 🔐 Secure Authentication
+
 - Supabase Auth with JWT
 - Encrypted database storage
 - HIPAA-ready architecture
 
 ### 📱 Responsive Design
+
 - Works across **desktop, tablet, and mobile**
 
 ---
@@ -82,18 +91,18 @@ It uses **secure cloud infrastructure with Supabase and AI orchestration pipelin
 
 MedVoice AI uses a **hybrid multi-model AI pipeline**.
 
-| AI Component | Purpose |
-|---|---|
-| **Google Gemini 1.5 Flash** | Medical reasoning and NLP |
-| **Groq LLaMA 3.3 70B** | Ultra-fast conversational responses |
-| **LangGraph** | AI workflow orchestration |
-| **Google Vision OCR** | Prescription image analysis |
+| AI Component                | Purpose                             |
+| --------------------------- | ----------------------------------- |
+| **Google Gemini 1.5 Flash** | Medical reasoning and NLP           |
+| **Groq LLaMA 3.3 70B**      | Ultra-fast conversational responses |
+| **LangGraph**               | AI workflow orchestration           |
+| **Google Vision OCR**       | Prescription image analysis         |
 
 Benefits:
 
-- ⚡ Fast responses  
-- 🧠 Accurate reasoning  
-- 🔄 Context-aware conversations  
+- ⚡ Fast responses
+- 🧠 Accurate reasoning
+- 🔄 Context-aware conversations
 
 ---
 
@@ -101,48 +110,47 @@ Benefits:
 
 ## 🖥 Frontend
 
-| Technology | Purpose |
-|---|---|
-| ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js) | React framework |
-| ![React](https://img.shields.io/badge/React-blue?logo=react) | UI library |
-| ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript) | Type safety |
-| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss) | Styling |
-| ![GSAP](https://img.shields.io/badge/GSAP-Animations-88CE02) | Animations |
-| ![Lucide](https://img.shields.io/badge/Lucide-Icons-black) | Icon library |
+| Technology                                                                       | Purpose         |
+| -------------------------------------------------------------------------------- | --------------- |
+| ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js)              | React framework |
+| ![React](https://img.shields.io/badge/React-blue?logo=react)                     | UI library      |
+| ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript)    | Type safety     |
+| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss) | Styling         |
+| ![GSAP](https://img.shields.io/badge/GSAP-Animations-88CE02)                     | Animations      |
+| ![Lucide](https://img.shields.io/badge/Lucide-Icons-black)                       | Icon library    |
 
 ---
 
 ## ⚙ Backend
 
-| Technology | Purpose |
-|---|---|
-| ![FastAPI](https://img.shields.io/badge/FastAPI-green?logo=fastapi) | Backend API |
-| ![Python](https://img.shields.io/badge/Python-3776AB?logo=python) | Runtime |
+| Technology                                                                | Purpose          |
+| ------------------------------------------------------------------------- | ---------------- |
+| ![FastAPI](https://img.shields.io/badge/FastAPI-green?logo=fastapi)       | Backend API      |
+| ![Python](https://img.shields.io/badge/Python-3776AB?logo=python)         | Runtime          |
 | ![LangGraph](https://img.shields.io/badge/LangGraph-AI%20Workflow-purple) | AI orchestration |
-| ![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-blue) | ASGI server |
+| ![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-blue)                | ASGI server      |
 
 ---
 
 ## 🗄 Database & Authentication
 
-| Technology | Purpose |
-|---|---|
-| ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase) | Database |
-| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql) | Data storage |
-| ![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens) | Authentication |
-| ![RLS](https://img.shields.io/badge/RLS-Security-red) | Row-level security |
+| Technology                                                                         | Purpose            |
+| ---------------------------------------------------------------------------------- | ------------------ |
+| ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase) | Database           |
+| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql)        | Data storage       |
+| ![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens)             | Authentication     |
+| ![RLS](https://img.shields.io/badge/RLS-Security-red)                              | Row-level security |
 
 Tables:
 
-- Users  
-- Conversations  
-- Messages  
-- Appointments  
+- Users
+- Conversations
+- Messages
+- Appointments
 
 ---
 
 # 📁 Project Structure
-
 
 # 🩺 MedVoice AI — Advanced AI Medical Diagnostic System
 
@@ -181,45 +189,54 @@ It uses **secure cloud infrastructure with Supabase and AI orchestration pipelin
 # ✨ Key Features
 
 ### 🤖 AI Diagnosis Engine
+
 - Symptom analysis using **Google Gemini** and **Groq LLaMA**
 - Intelligent disease probability estimation
 - Conversational reasoning for medical queries
 
 ### 📸 Prescription Scanner
+
 - Upload prescription images
 - AI extracts medicines and instructions
 - Automatic medication explanation
 
 ### 💬 AI Chatbot
+
 - Multi-turn medical conversations
 - Context-aware responses
 - Personalized health insights
 
 ### 👨‍⚕️ Doctor Recommendation
+
 - Smart specialist matching
 - Based on symptoms and location
 - Quick access to relevant doctors
 
 ### 📅 Appointment Booking
+
 - Integrated consultation booking
 - Secure appointment management
 - Patient-doctor interaction system
 
 ### 🎤 Voice Interaction
+
 - Speech-to-text medical queries
 - Text-to-speech responses
 - Hands-free medical assistant
 
 ### 📊 Medical Reports
+
 - Export diagnostic reports as **PDF**
 - Shareable health summaries
 
 ### 🔐 Secure Authentication
+
 - Supabase Auth with JWT
 - Encrypted database storage
 - HIPAA-ready architecture
 
 ### 📱 Responsive Design
+
 - Works across **desktop, tablet, and mobile**
 
 ---
@@ -228,18 +245,18 @@ It uses **secure cloud infrastructure with Supabase and AI orchestration pipelin
 
 MedVoice AI uses a **hybrid multi-model AI pipeline**.
 
-| AI Component | Purpose |
-|---|---|
-| **Google Gemini 1.5 Flash** | Medical reasoning and NLP |
-| **Groq LLaMA 3.3 70B** | Ultra-fast conversational responses |
-| **LangGraph** | AI workflow orchestration |
-| **Google Vision OCR** | Prescription image analysis |
+| AI Component                | Purpose                             |
+| --------------------------- | ----------------------------------- |
+| **Google Gemini 1.5 Flash** | Medical reasoning and NLP           |
+| **Groq LLaMA 3.3 70B**      | Ultra-fast conversational responses |
+| **LangGraph**               | AI workflow orchestration           |
+| **Google Vision OCR**       | Prescription image analysis         |
 
 Benefits:
 
-- ⚡ Fast responses  
-- 🧠 Accurate reasoning  
-- 🔄 Context-aware conversations  
+- ⚡ Fast responses
+- 🧠 Accurate reasoning
+- 🔄 Context-aware conversations
 
 ---
 
@@ -247,48 +264,47 @@ Benefits:
 
 ## 🖥 Frontend
 
-| Technology | Purpose |
-|---|---|
-| ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js) | React framework |
-| ![React](https://img.shields.io/badge/React-blue?logo=react) | UI library |
-| ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript) | Type safety |
-| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss) | Styling |
-| ![GSAP](https://img.shields.io/badge/GSAP-Animations-88CE02) | Animations |
-| ![Lucide](https://img.shields.io/badge/Lucide-Icons-black) | Icon library |
+| Technology                                                                       | Purpose         |
+| -------------------------------------------------------------------------------- | --------------- |
+| ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js)              | React framework |
+| ![React](https://img.shields.io/badge/React-blue?logo=react)                     | UI library      |
+| ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript)    | Type safety     |
+| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss) | Styling         |
+| ![GSAP](https://img.shields.io/badge/GSAP-Animations-88CE02)                     | Animations      |
+| ![Lucide](https://img.shields.io/badge/Lucide-Icons-black)                       | Icon library    |
 
 ---
 
 ## ⚙ Backend
 
-| Technology | Purpose |
-|---|---|
-| ![FastAPI](https://img.shields.io/badge/FastAPI-green?logo=fastapi) | Backend API |
-| ![Python](https://img.shields.io/badge/Python-3776AB?logo=python) | Runtime |
+| Technology                                                                | Purpose          |
+| ------------------------------------------------------------------------- | ---------------- |
+| ![FastAPI](https://img.shields.io/badge/FastAPI-green?logo=fastapi)       | Backend API      |
+| ![Python](https://img.shields.io/badge/Python-3776AB?logo=python)         | Runtime          |
 | ![LangGraph](https://img.shields.io/badge/LangGraph-AI%20Workflow-purple) | AI orchestration |
-| ![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-blue) | ASGI server |
+| ![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-blue)                | ASGI server      |
 
 ---
 
 ## 🗄 Database & Authentication
 
-| Technology | Purpose |
-|---|---|
-| ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase) | Database |
-| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql) | Data storage |
-| ![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens) | Authentication |
-| ![RLS](https://img.shields.io/badge/RLS-Security-red) | Row-level security |
+| Technology                                                                         | Purpose            |
+| ---------------------------------------------------------------------------------- | ------------------ |
+| ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase) | Database           |
+| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql)        | Data storage       |
+| ![JWT](https://img.shields.io/badge/JWT-Auth-black?logo=jsonwebtokens)             | Authentication     |
+| ![RLS](https://img.shields.io/badge/RLS-Security-red)                              | Row-level security |
 
 Tables:
 
-- Users  
-- Conversations  
-- Messages  
-- Appointments  
+- Users
+- Conversations
+- Messages
+- Appointments
 
 ---
 
 # 📁 Project Structure
-
 
 MedVoiceAi/
 │
@@ -326,7 +342,6 @@ MedVoiceAi/
 ├── package.json
 └── README.md
 
-
 ---
 
 # ⚡ Installation & Setup
@@ -338,10 +353,8 @@ MedVoiceAi/
 - Supabase account
 - API Keys
 
-
 GEMINI_API_KEY
 GROQ_API_KEY
-
 
 ---
 
@@ -349,7 +362,7 @@ GROQ_API_KEY
 
 ### Clone Repository
 
-```bash
+````bash
 git clone https://github.com/amartya3ac/medvoice_ai.git
 cd medvoice_ai
 Install Frontend
@@ -576,3 +589,4 @@ https://tailwindcss.com/
 MedVoice AI bridges artificial intelligence and healthcare, enabling faster diagnostics and smarter consultations.
 
 Where AI meets medical expertise.
+````

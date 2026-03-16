@@ -64,7 +64,29 @@ export default function Navbar() {
     { href: "/chatbot", label: "AI Assistant" },
   ];
 
-  if (pathname === "/chatbot") return null;
+  // Show compact profile icon on chatbot page
+  if (pathname === "/chatbot") {
+    return (
+      <>
+        {!loading && user && (
+          <div className="fixed top-4 right-4 z-50">
+            <button
+              onClick={() => setProfileOpen(true)}
+              className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center border border-white/10 hover:border-blue-500/50 transition-all duration-300 shadow-lg hover:scale-110"
+              title="Profile"
+            >
+              <UserIcon className="w-6 h-6 text-blue-400" />
+            </button>
+          </div>
+        )}
+        <ProfileDashboard
+          isOpen={profileOpen}
+          onClose={() => setProfileOpen(false)}
+          user={user}
+        />
+      </>
+    );
+  }
 
   return (
     <>

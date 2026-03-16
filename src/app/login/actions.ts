@@ -65,15 +65,33 @@ export async function login(formData: FormData) {
     return redirect(`/login?error=${encodeURIComponent(error.message)}`)
   }
 
-  // Update last_login in users table
+  // Ensure user exists in users table
   if (signInData.user) {
-    const { error: updateError } = await supabase
+    // Try to insert first (for new users)
+    const { error: insertError } = await supabase
       .from('users')
-      .update({ last_login: new Date().toISOString() })
-      .eq('id', signInData.user.id)
+      .insert({
+        id: signInData.user.id,
+        email: signInData.user.email,
+        full_name: signInData.user.user_metadata?.full_name || '',
+        last_login: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
 
-    if (updateError) {
-      console.error('Error updating last login:', updateError)
+    // If insert fails (user already exists), update last_login
+    if (insertError) {
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({
+          last_login: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', signInData.user.id)
+
+      if (updateError) {
+        console.error('Error updating user:', updateError)
+      }
     }
   }
 

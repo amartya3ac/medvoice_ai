@@ -73,9 +73,34 @@ export default function ProfileDashboard({
         setProfile(data);
         setFormData(data);
         setPhotoUrl(data.profile_photo || '');
+      } else {
+        // Create a default profile from auth user if not in database
+        const defaultProfile: ProfileData = {
+          id: user.id,
+          email: user.email || '',
+          full_name: user.user_metadata?.full_name || '',
+          phone_number: '',
+          address: '',
+          city: '',
+          profile_photo: '',
+        };
+        setProfile(defaultProfile);
+        setFormData(defaultProfile);
       }
     } catch (err) {
       console.error('Error loading profile:', err);
+      // Fallback profile with at least email
+      const fallbackProfile: ProfileData = {
+        id: user.id,
+        email: user.email || '',
+        full_name: user.user_metadata?.full_name || '',
+        phone_number: '',
+        address: '',
+        city: '',
+        profile_photo: '',
+      };
+      setProfile(fallbackProfile);
+      setFormData(fallbackProfile);
     } finally {
       setLoading(false);
     }

@@ -9,7 +9,7 @@ if parent_dir not in sys.path:
 
 from typing import TypedDict, List, Union, Annotated
 from operator import add
-from langgraph.graph import StateGraph, END  # type: ignore
+from langgraph.graph import StateGraph  # type: ignore
 from langchain_google_genai import ChatGoogleGenerativeAI  # type: ignore
 from langchain_openai import ChatOpenAI  # type: ignore
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage  # type: ignore
@@ -170,6 +170,6 @@ workflow = StateGraph(AgentState)
 workflow.add_node("expert", medical_expert_node)
 
 workflow.set_entry_point("expert")
-workflow.add_edge("expert", END)
+workflow.add_edge("expert", "__end__")
 
 orchestrator = workflow.compile()

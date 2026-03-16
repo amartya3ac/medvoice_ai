@@ -22,7 +22,7 @@ export async function POST(req: Request) {
       return new Response('Unauthorized', { status: 401 });
     }
 
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8001';
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
     console.log(`Calling Backend: ${backendUrl}/chat`);
 
     const enhancedMessages = [...messages];

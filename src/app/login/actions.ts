@@ -11,6 +11,7 @@ export async function signup(formData: FormData) {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
     confirmPassword: formData.get('confirmPassword') as string,
+    fullName: formData.get('fullName') as string || '',
   }
 
   if (data.password !== data.confirmPassword) {
@@ -24,6 +25,20 @@ export async function signup(formData: FormData) {
 
   if (error) {
     return redirect(`/login?error=${encodeURIComponent(error.message)}`)
+  }
+
+  // Save user info to users table
+  if (signUpData.user) {
+    const { error: insertError } = await supabase.from('users').insert({
+      id: signUpData.user.id,
+      email: data.email,
+      full_name: data.fullName,
+      created_at: new Date().toISOString(),
+    })
+
+    if (insertError) {
+      console.error('Error saving user info:', insertError)
+    }
   }
 
   // If email confirmation is disabled in Supabase, session will be returned immediately
@@ -44,10 +59,22 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { data: signInData, error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
     return redirect(`/login?error=${encodeURIComponent(error.message)}`)
+  }
+
+  // Update last_login in users table
+  if (signInData.user) {
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ last_login: new Date().toISOString() })
+      .eq('id', signInData.user.id)
+
+    if (updateError) {
+      console.error('Error updating last login:', updateError)
+    }
   }
 
   revalidatePath('/', 'layout')

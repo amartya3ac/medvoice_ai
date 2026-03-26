@@ -33,12 +33,12 @@ It uses **secure cloud infrastructure with Supabase and AI orchestration pipelin
 ## 🌐 Live Application
 
 <p align="center">
-  <a href="https://medvoice-ai-eight.vercel.app/">
+  <a href="https://medvoice-ai-nine.vercel.app/">
     <img src="https://img.shields.io/badge/🚀%20Visit%20MedVoice%20AI-Live%20Application-blue?style=for-the-badge" alt="Visit MedVoice AI" />
   </a>
 </p>
 
-🔗 **Live Demo:** [https://medvoice-ai-eight.vercel.app/]([https://medvoice-ai-nine.vercel.app/])
+🔗 **Live Demo:** [https://medvoice-ai-nine.vercel.app/]([https://medvoice-ai-nine.vercel.app/])
 
 You can directly try the AI medical assistant online without installing anything.
 

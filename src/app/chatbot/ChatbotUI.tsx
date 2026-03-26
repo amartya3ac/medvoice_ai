@@ -1042,145 +1042,112 @@ export default function ChatbotUI({
     }
 
     setLocalIsAnalyzing(true);
-    setStructuredAnalysis(INITIAL_ANALYSIS); // Reset to clear previous results immediately
-    setDebugAnalysis(""); // Reset previous debug analysis
+    setStructuredAnalysis(INITIAL_ANALYSIS);
+    setDebugAnalysis("");
 
     try {
-      console.log("[DEBUG] handleSend triggered:", {
-        textToAnalyzeLength: textToAnalyze.length,
-        hasFile: !!uploadedFile,
-      });
-
       let finalSymptom = textToAnalyze;
-      let ocrText = "";
 
+      // Try OCR if file uploaded (best-effort, skip if backend down)
       if (uploadedFile) {
         try {
           const formData = new FormData();
           formData.append("file", uploadedFile);
-
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 2000); // 2s timeout
-
-          console.log("[DEBUG] Attempting OCR for:", uploadedFile.name);
           const ocrResponse = await fetch(
             "http://127.0.0.1:8000/analyze-prescription",
             {
               method: "POST",
               body: formData,
-              signal: controller.signal,
+              signal: AbortSignal.timeout(3000),
             },
           );
-          clearTimeout(timeoutId);
-
           if (ocrResponse.ok) {
             const data = await ocrResponse.json();
-            ocrText = data.text || "";
-            console.log("[DEBUG] OCR Success");
+            if (data.text)
+              finalSymptom = `[Prescription/Report Data]:\n${data.text}\n\n[User Symptoms]:\n${textToAnalyze}`;
           }
-        } catch (err) {
-          console.error("[DEBUG] OCR Exception (Bypassing):", err);
+        } catch (_) {
+          // OCR failed — continue with text only
         }
       }
 
-      if (ocrText) {
-        finalSymptom = `[Prescription/Report Data]:\n${ocrText}\n\n[User Symptoms]:\n${textToAnalyze}`;
+      // Build message history (exclude welcome message)
+      const chatHistory = messages
+        .filter((m: any) => m.id !== "welcome")
+        .map((m: any) => ({ role: m.role, content: m.content }));
+
+      const payload = {
+        messages: [...chatHistory, { role: "user", content: finalSymptom }],
+        conversationId: selectedConversationId, // camelCase matches route.ts
+        user_id: user?.id || "demo_user",
+      };
+
+      console.log("[handleSend] Calling /api/chat with conversationId:", selectedConversationId);
+
+      // Call Next.js API route (which handles backend + DB persistence)
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      // Capture the conversation ID from the response header
+      const returnedConvId = response.headers.get("x-conversation-id");
+      if (returnedConvId && returnedConvId !== selectedConversationId) {
+        console.log("[handleSend] Setting conversation ID:", returnedConvId);
+        onConversationChange(returnedConvId);
       }
 
-      // Attempt backend AI call
-      try {
-        console.log("[DEBUG] Initiating AI diagnostic request...");
-
-        // Filter out the static "welcome" message before sending to LangGraph
-        const chatHistory = messages
-          .filter((m: any) => m.id !== "welcome")
-          .map((m: any) => ({
-            role: m.role,
-            content: m.content,
-          }));
-
-        const payload = {
-          messages: [...chatHistory, { role: "user", content: finalSymptom }],
-          conversation_id: selectedConversationId,
-          user_id: user?.id || "demo_user",
-        };
-
-        console.log("FRONTEND_SENDING:", payload);
-
-        const response = await fetch("http://127.0.0.1:8000/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            `Backend crash: ${response.status} ${response.statusText}`,
-          );
-        }
-
-        const responseData = await response.json();
-        console.log("BACKEND_RETURNING:", responseData);
-
-        const rawContent =
-          responseData.data.messages[responseData.data.messages.length - 1]
-            .content;
-        const parsed =
-          typeof rawContent === "string" ? JSON.parse(rawContent) : rawContent;
-
-        setStructuredAnalysis({
-          ...INITIAL_ANALYSIS,
-          ...parsed,
-          home_remedies: parsed.home_remedies || parsed.remedies || [],
-          medical_treatments:
-            parsed.medical_treatments || parsed.treatments || [],
-        });
-
-        // Map the new messages array back into the UI
-        const newHistory = responseData.data.messages.map(
-          (m: any, i: number) => ({
-            id: `msg-${Date.now()}-${i}`,
-            role: m.role,
-            content: m.content,
-          }),
-        );
-
-        // Prepend the welcome message
-        setMessages([
-          {
-            id: "welcome",
-            role: "assistant",
-            content:
-              "Hello! I am MedVoice AI, your personal medical assistant. I'm connected and ready to help. How can I assist you today?",
-          },
-          ...newHistory,
-        ]);
-
-        setSymptomText("");
-        setLocalIsAnalyzing(false);
-        return; // Success
-      } catch (appendError) {
-        console.error("[DEBUG] fetch() failed:", appendError);
-        // Trigger fallback UI Error State
-        setStructuredAnalysis({
-          specialty: "System Error",
-          diagnosis:
-            "Connection to the Diagnostic Engine could not be established. Ensure backend is running.",
-          home_remedies: [],
-          medical_treatments: [],
-          doctors: [],
-        });
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
 
-      setLocalIsAnalyzing(false);
-    } catch (error) {
-      console.error("[DEBUG] Global Submission Error:", error);
-      setLocalIsAnalyzing(false);
-      alert("An unexpected error occurred. Please try again.");
+      const assistantContent = await response.text();
+      console.log("[handleSend] Response received, length:", assistantContent.length);
+
+      // Parse the structured response
+      const raw = processAssistantContent(assistantContent);
+      const { doctors: registryDoctors, isFallback: locationFallback } =
+        raw.specialty
+          ? getFilteredDoctors(raw.specialty, userLocation)
+          : { doctors: [], isFallback: false };
+
+      setStructuredAnalysis({
+        ...raw,
+        doctors:
+          raw.doctors && raw.doctors.length > 0 ? raw.doctors : registryDoctors,
+        isLocationFallback:
+          raw.doctors && raw.doctors.length > 0 ? false : locationFallback,
+      });
+
+      // Update message list in UI
+      setMessages([
+        ...messages,
+        { id: `user-${Date.now()}`, role: "user", content: finalSymptom },
+        {
+          id: `assistant-${Date.now()}`,
+          role: "assistant",
+          content: assistantContent,
+        },
+      ]);
+
+      setSymptomText("");
+    } catch (error: any) {
+      console.error("[handleSend] Error:", error);
+      setStructuredAnalysis({
+        specialty: "System Error",
+        diagnosis:
+          "Connection to the Diagnostic Engine could not be established. Ensure backend is running.",
+        home_remedies: [],
+        medical_treatments: [],
+        doctors: [],
+      });
     } finally {
       setLocalIsAnalyzing(false);
     }
   };
+
+
 
   const toggleSpeech = (text: string) => {
     if (!("speechSynthesis" in window)) {

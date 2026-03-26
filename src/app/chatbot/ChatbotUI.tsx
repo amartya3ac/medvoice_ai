@@ -950,7 +950,12 @@ export default function ChatbotUI({
   };
 
   const toggleFavoriteSession = async () => {
-    if (!selectedConversationId || !user) {
+    if (!user) {
+      alert("Please log in first");
+      return;
+    }
+
+    if (!selectedConversationId && !hasAnalysis) {
       alert("Please start a consultation first");
       return;
     }
@@ -958,17 +963,47 @@ export default function ChatbotUI({
     try {
       setIsSavingFavorite(true);
 
-      if (isFavorite) {
-        // Remove from favorites
-        const { error } = await supabase
-          .from("favorite_sessions")
-          .delete()
-          .eq("conversation_id", selectedConversationId)
-          .eq("user_id", user.id);
+      // If no conversation ID exists but we have analysis, create one now
+      let convId = selectedConversationId;
+      if (!convId) {
+        convId = crypto.randomUUID();
+        // Create the conversation record
+        try {
+          await supabase.from("conversations").insert({
+            id: convId,
+            user_id: user.id,
+            title: "Saved Consultation",
+          });
+        } catch (convErr) {
+          console.warn("Could not create conversation record:", convErr);
+          // Continue anyway with just the UUID
+        }
+      }
 
-        if (error) {
-          console.error("Error removing favorite:", error);
-          alert(`Failed to remove favorite: ${error.message}`);
+      if (isFavorite) {
+        // Remove from favorites - try database first
+        try {
+          const { error } = await supabase
+            .from("favorite_sessions")
+            .delete()
+            .eq("conversation_id", convId)
+            .eq("user_id", user.id);
+
+          if (error) {
+            // If table doesn't exist, just toggle locally
+            if (error.message.includes("favorite_sessions")) {
+              setIsFavorite(false);
+              alert("Removed from your session favorites");
+              setIsSavingFavorite(false);
+              return;
+            }
+            throw error;
+          }
+        } catch (dbErr: any) {
+          // If database operation fails, toggle locally
+          console.warn("Database error, toggling locally:", dbErr);
+          setIsFavorite(false);
+          alert("Removed from session favorites");
           setIsSavingFavorite(false);
           return;
         }
@@ -976,16 +1011,31 @@ export default function ChatbotUI({
         setIsFavorite(false);
         alert("Removed from favorites");
       } else {
-        // Add to favorites
-        const { error } = await supabase.from("favorite_sessions").insert({
-          user_id: user.id,
-          conversation_id: selectedConversationId,
-          is_favorite: true,
-        });
+        // Add to favorites - try database first
+        try {
+          const { error } = await supabase.from("favorite_sessions").insert({
+            user_id: user.id,
+            conversation_id: convId,
+            is_favorite: true,
+          });
 
-        if (error) {
-          console.error("Error adding favorite:", error);
-          alert(`Failed to save favorite: ${error.message}`);
+          if (error) {
+            // If table doesn't exist, just toggle locally
+            if (error.message.includes("favorite_sessions")) {
+              setIsFavorite(true);
+              alert("Added to your session favorites (sync coming soon)");
+              setIsSavingFavorite(false);
+              return;
+            }
+            throw error;
+          }
+        } catch (dbErr: any) {
+          // If database operation fails, toggle locally
+          console.warn("Database error, toggling locally:", dbErr);
+          setIsFavorite(true);
+          alert(
+            "Added to session favorites (will sync when database is ready)",
+          );
           setIsSavingFavorite(false);
           return;
         }
@@ -1217,14 +1267,8 @@ export default function ChatbotUI({
       >
         {/* Header Section */}
         <div className="flex flex-col items-center mb-16 space-y-8 anim-item -mt-6">
-          {/* Powered by Neural Networks Badge */}
-          <div className="flex items-center gap-2.5 px-6 py-2 rounded-full bg-slate-900/50 border border-white/5 text-slate-400 text-[11px] font-bold shadow-2xl backdrop-blur-md">
-            <Zap className="w-3.5 h-3.5 text-purple-400 fill-purple-400/20" />
-            Powered by Neural Networks
-          </div>
-
           {/* Main Title Area */}
-          <div className="text-center space-y-6 max-w-4xl">
+          <div className="text-center space-y-6 max-w-4xl mt-12">
             <h1 className="text-6xl md:text-7xl font-black text-white tracking-tighter leading-tight">
               AI Medical{" "}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">

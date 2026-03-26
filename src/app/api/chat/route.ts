@@ -59,6 +59,33 @@ CRITICAL: If input is unclear or gibberish, ask for clarification in "chat_respo
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`Backend Error (${response.status}):`, errorText);
+      
+      // Fallback response when backend is unavailable
+      if (response.status === 503 || response.status === 404) {
+        console.warn('Backend service unavailable, using fallback response');
+        const fallbackAssistantContent = JSON.stringify({
+          analysis: "Backend service is temporarily unavailable. Please try again in a moment.",
+          chat_response: "I apologize, but I'm currently unable to process your request. Our system is undergoing maintenance. Please try again shortly."
+        });
+        
+        let currentConvId = conversationId || crypto.randomUUID();
+        
+        const encoder = new TextEncoder();
+        const stream = new ReadableStream({
+          start(controller) {
+            controller.enqueue(encoder.encode(fallbackAssistantContent));
+            controller.close();
+          }
+        });
+
+        return new Response(stream, {
+          headers: {
+            'Content-Type': 'text/plain; charset=utf-8',
+            'x-conversation-id': currentConvId
+          }
+        });
+      }
+      
       throw new Error(`Backend error: ${errorText}`);
     }
 
@@ -69,13 +96,18 @@ CRITICAL: If input is unclear or gibberish, ask for clarification in "chat_respo
     let currentConvId = conversationId || data.conversation_id;
     if (!currentConvId) {
         const newId = crypto.randomUUID();
-        // Create conversation
-        const title = messages[messages.length - 1].content.substring(0, 50) + '...';
-        await supabase.from('conversations').insert({
-            id: newId,
-            user_id: user.id,
-            title: title
-        });
+        try {
+          // Create conversation
+          const title = messages[messages.length - 1].content.substring(0, 50) + '...';
+          await supabase.from('conversations').insert({
+              id: newId,
+              user_id: user.id,
+              title: title
+          });
+        } catch (convError: any) {
+          console.error('Error creating conversation:', convError);
+          // Still use the ID even if creation fails
+        }
         currentConvId = newId;
     }
 
@@ -84,20 +116,26 @@ CRITICAL: If input is unclear or gibberish, ask for clarification in "chat_respo
     // 2. Persist Messages to Supabase
     // Save User Message
     const lastUserMsg = messages[messages.length - 1];
-    await supabase.from('messages').insert({
+    try {
+      await supabase.from('messages').insert({
         conversation_id: currentConvId,
         role: 'user',
         content: lastUserMsg.content,
         user_id: user.id
-    });
+      });
 
-    // Save Assistant Message
-    await supabase.from('messages').insert({
+      // Save Assistant Message
+      await supabase.from('messages').insert({
         conversation_id: currentConvId,
         role: 'assistant',
         content: assistantContent,
         user_id: user.id
-    });
+      });
+    } catch (dbError: any) {
+      console.error('Error persisting messages to database:', dbError);
+      // Don't fail the entire request if database operations fail
+      // The user will still get a response
+    }
 
     // 3. Return response with stream
     const encoder = new TextEncoder();

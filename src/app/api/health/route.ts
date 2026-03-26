@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
-        const response = await fetch(`${backendUrl}/`, { 
+        const response = await fetch(`${backendUrl}/`, {
             method: 'GET',
             cache: 'no-store'
         });
-        
+
         if (response.ok) {
             return NextResponse.json({ status: 'connected' });
         }

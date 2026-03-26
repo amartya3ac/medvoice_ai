@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     }
 
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
-    
+
     // 1. Save to Supabase for local record persistence
     const { error: dbError } = await supabase.from('appointments').insert({
       user_id: user.id,
@@ -40,9 +40,9 @@ export async function POST(req: Request) {
     });
 
     if (!response.ok) {
-        const errorText = await response.text();
-        console.warn(`External Backend Sync Warning: ${errorText}`);
-        // We don't throw error here because the Supabase record is already saved
+      const errorText = await response.text();
+      console.warn(`External Backend Sync Warning: ${errorText}`);
+      // We don't throw error here because the Supabase record is already saved
     }
 
     return new Response(JSON.stringify({ success: true, message: 'Appointment booked successfully' }), {
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     });
   } catch (error: any) {
     console.error('Booking API Route Error:', error);
-    return new Response(JSON.stringify({ error: error.message }), { 
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

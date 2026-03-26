@@ -84,7 +84,7 @@ export default function ProfileDashboard({
           phone_number: "",
           address: "",
           city: "",
-          profile_photo: "",
+          profile_photo: user.user_metadata?.avatar_url || user.user_metadata?.picture || "",
         };
         setProfile(defaultProfile);
         setFormData(defaultProfile);
@@ -99,7 +99,7 @@ export default function ProfileDashboard({
         phone_number: "",
         address: "",
         city: "",
-        profile_photo: "",
+        profile_photo: user.user_metadata?.avatar_url || user.user_metadata?.picture || "",
       };
       setProfile(fallbackProfile);
       setFormData(fallbackProfile);

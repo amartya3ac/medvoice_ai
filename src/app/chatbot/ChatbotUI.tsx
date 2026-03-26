@@ -960,99 +960,70 @@ export default function ChatbotUI({
       return;
     }
 
-    try {
-      setIsSavingFavorite(true);
+    setIsSavingFavorite(true);
 
-      // If no conversation ID exists but we have analysis, create one now
+    try {
+      // Ensure conversation exists in DB (upsert avoids duplicate key errors)
       let convId = selectedConversationId;
       if (!convId) {
         convId = crypto.randomUUID();
-        // Create the conversation record
-        try {
-          await supabase.from("conversations").insert({
-            id: convId,
-            user_id: user.id,
-            title: "Saved Consultation",
-          });
-        } catch (convErr) {
-          console.warn("Could not create conversation record:", convErr);
-          // Continue anyway with just the UUID
-        }
+      }
+
+      // Always upsert the conversation to make sure it exists
+      const { error: convErr } = await supabase.from("conversations").upsert({
+        id: convId,
+        user_id: user.id,
+        title: "Saved Consultation",
+        updated_at: new Date().toISOString(),
+      }, { onConflict: "id" });
+
+      if (convErr) {
+        console.error("conversation upsert error:", convErr.message, convErr.details, convErr.hint);
+        alert(`Could not save conversation: ${convErr.message}`);
+        setIsSavingFavorite(false);
+        return;
       }
 
       if (isFavorite) {
-        // Remove from favorites - try database first
-        try {
-          const { error } = await supabase
-            .from("favorite_sessions")
-            .delete()
-            .eq("conversation_id", convId)
-            .eq("user_id", user.id);
+        // Remove from favorites
+        const { error: delErr } = await supabase
+          .from("favorite_sessions")
+          .delete()
+          .eq("conversation_id", convId)
+          .eq("user_id", user.id);
 
-          if (error) {
-            // If table doesn't exist, just toggle locally
-            if (error.message.includes("favorite_sessions")) {
-              setIsFavorite(false);
-              alert("Removed from your session favorites");
-              setIsSavingFavorite(false);
-              return;
-            }
-            throw error;
-          }
-        } catch (dbErr: any) {
-          // If database operation fails, toggle locally
-          console.warn("Database error, toggling locally:", dbErr);
+        if (delErr) {
+          console.error("favorite delete error:", delErr.message);
+          alert(`Could not remove favorite: ${delErr.message}`);
+        } else {
           setIsFavorite(false);
-          alert("Removed from session favorites");
-          setIsSavingFavorite(false);
-          return;
+          alert("Removed from favorites");
         }
-
-        setIsFavorite(false);
-        alert("Removed from favorites");
       } else {
-        // Add to favorites - try database first
-        try {
-          const { error } = await supabase.from("favorite_sessions").insert({
-            user_id: user.id,
-            conversation_id: convId,
-            is_favorite: true,
-          });
+        // Add to favorites
+        const { error: favErr } = await supabase.from("favorite_sessions").upsert({
+          user_id: user.id,
+          conversation_id: convId,
+          is_favorite: true,
+        }, { onConflict: "conversation_id,user_id" });
 
-          if (error) {
-            // If table doesn't exist, just toggle locally
-            if (error.message.includes("favorite_sessions")) {
-              setIsFavorite(true);
-              alert("Added to your session favorites (sync coming soon)");
-              setIsSavingFavorite(false);
-              return;
-            }
-            throw error;
-          }
-        } catch (dbErr: any) {
-          // If database operation fails, toggle locally
-          console.warn("Database error, toggling locally:", dbErr);
+        if (favErr) {
+          console.error("favorite insert error:", favErr.message, favErr.details, favErr.hint);
+          alert(`Could not save favorite: ${favErr.message}`);
+        } else {
           setIsFavorite(true);
-          alert(
-            "Added to session favorites (will sync when database is ready)",
-          );
-          setIsSavingFavorite(false);
-          return;
+          alert("Added to favorites! Open your Profile Dashboard to view it.");
         }
-
-        setIsFavorite(true);
-        alert("Added to favorites! You can view it in your profile dashboard");
       }
-    } catch (err) {
-      console.error("Error toggling favorite:", err);
-      alert(
-        "Failed to save favorite session: " +
-          (err instanceof Error ? err.message : "Unknown error"),
-      );
+    } catch (err: any) {
+      console.error("toggleFavoriteSession unexpected error:", err);
+      alert("Unexpected error: " + err.message);
     } finally {
       setIsSavingFavorite(false);
     }
   };
+
+
 
   const handleSend = async (
     e: React.MouseEvent | React.FormEvent | null,

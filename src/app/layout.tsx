@@ -3,6 +3,7 @@ import "@fontsource/inter";
 import "@fontsource/outfit";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import LenisProvider from "@/components/LenisProvider";
 import Link from "next/link";
 import { Activity } from "lucide-react";
 
@@ -18,14 +19,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`font-sans min-h-screen flex flex-col antialiased selection:bg-violet-500/30 selection:text-violet-200`}
+        suppressHydrationWarning
       >
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-
-        {/* Premium Footer */}
+        {/* Global Background Effect */}
+        <div className="fixed inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+        
+        <LenisProvider>
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+  
+          {/* Premium Footer */}
         <footer className="glass-nav mt-auto pt-16 pb-8 border-t border-white/5">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
@@ -152,6 +158,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </LenisProvider>
       </body>
     </html>
   );

@@ -277,7 +277,8 @@ export default function ProfileDashboard({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl glass-card bg-slate-900/95 border border-white/10 shadow-2xl">
+      <div className="hover-3d w-full max-w-2xl">
+        <div className="w-full max-h-[90vh] overflow-y-auto rounded-3xl glass-card bg-slate-900/95 border border-white/10 shadow-2xl">
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-b border-white/10 p-4 sm:p-6 flex items-center justify-between">
           <h2 className="text-lg sm:text-2xl font-bold text-white">
@@ -576,6 +577,16 @@ export default function ProfileDashboard({
             )}
           </div>
         )}
+        </div>
+        {/* 8 hover zones required for the 3D effect */}
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
     </div>
   );

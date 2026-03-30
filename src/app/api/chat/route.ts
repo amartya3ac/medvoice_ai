@@ -107,8 +107,8 @@ CRITICAL: If input is unclear or gibberish, ask for clarification and set diagno
     });
 
     if (response.ok) {
-      const data = await response.json();
-      assistantContent = data?.messages?.[data.messages.length - 1]?.content || null;
+      const respJson = await response.json();
+      assistantContent = respJson?.data?.messages?.[respJson.data.messages.length - 1]?.content || null;
       console.log('Backend responded successfully');
     } else {
       const errText = await response.text();

@@ -1640,7 +1640,7 @@ export default function ChatbotUI({
                         <div className="flex justify-between items-start mb-6">
                           <div>
                             <h4 className="text-2xl font-black text-white tracking-tighter mb-1">
-                              Dr. {doc.name}
+                              {doc.name}
                             </h4>
                             <div className="flex items-center gap-3">
                               <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest bg-blue-500/10 px-2 py-0.5 rounded-md">

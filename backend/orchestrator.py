@@ -15,7 +15,10 @@ from langchain_openai import ChatOpenAI  # type: ignore
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage  # type: ignore
 from dotenv import load_dotenv  # type: ignore
 
-from backend.supabase_client import get_supabase_client  # type: ignore
+try:
+    from backend.supabase_client import get_supabase_client  # type: ignore
+except ImportError:
+    from supabase_client import get_supabase_client  # type: ignore
 
 # Load environment variables from root or local
 if os.path.exists(".env.local"):

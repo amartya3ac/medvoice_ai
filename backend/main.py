@@ -10,8 +10,12 @@ if parent_dir not in sys.path:
 from fastapi import FastAPI, HTTPException, Request  # type: ignore
 from pydantic import BaseModel  # type: ignore
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore
-from backend.orchestrator import orchestrator  # type: ignore
-from backend.supabase_client import get_supabase_client  # type: ignore
+try:
+    from backend.orchestrator import orchestrator  # type: ignore
+    from backend.supabase_client import get_supabase_client  # type: ignore
+except ImportError:
+    from orchestrator import orchestrator  # type: ignore
+    from supabase_client import get_supabase_client  # type: ignore
 import uuid
 
 app = FastAPI(title="MedVoice AI Backend")
